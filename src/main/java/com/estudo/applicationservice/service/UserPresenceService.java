@@ -6,9 +6,10 @@ import com.estudo.applicationservice.rest.vo.UserPresenceRequest;
 import com.estudo.applicationservice.rest.vo.UserPresenceResponse;
 import com.estudo.applicationservice.service.mappers.UserPresenceToUserPresenceResponseMapper;
 import com.estudo.applicationservice.service.mappers.UserPresenceRequestToUserPresenceMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class UserPresenceService {
@@ -26,18 +27,15 @@ public class UserPresenceService {
         this.userPresenceRequestToUserPresenceMapper = userPresenceRequestToUserPresenceMapper;
         this.userPresenceToUserPresenceResponseMapper = userPresenceToUserPresenceResponseMapper;
     }
-    final private String SUCCESS = "Presenca atualizada com sucesso!!";
-
-    final private String FAILED = "Houve um erro ao atualizar a presenca";
 
 
-    public UserPresenceResponse atualizarPresenca(final UserPresenceRequest request) {
+    public UserPresenceResponse updatePresence(final UserPresenceRequest request) {
 
             final UserPresence userPresenceMap = userPresenceRequestToUserPresenceMapper.map(request);
             final UserPresence userPresence = userPresenceDAO.insert(userPresenceMap);
 
+            if(Objects.isNull(userPresence)){ return  null; }
 
             return userPresenceToUserPresenceResponseMapper.map(userPresence);
-
     }
 }
