@@ -8,8 +8,8 @@ public class UserPresenceResponse {
     private String accountId;
     @JsonProperty
     private boolean presence;
-    @JsonProperty ("date")
-    private String weekDay;
+    @JsonProperty
+    private String date;
 
     public boolean isPresence() {
         return presence;
@@ -19,12 +19,12 @@ public class UserPresenceResponse {
         this.presence = presence;
     }
 
-    public String getWeekDay() {
-        return weekDay;
+    public String getDate() {
+        return date;
     }
 
-    public void setWeekDay(String weekDay) {
-        this.weekDay = weekDay;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getAccountId() {
