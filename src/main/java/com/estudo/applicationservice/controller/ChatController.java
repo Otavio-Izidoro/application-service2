@@ -23,9 +23,11 @@ public class ChatController {
         this.openaiService = openaiService;
     }
 
-    @PostMapping(path = "/quiz", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/quiz",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<QuizResponse> chat(@RequestBody final OpenaiRequest request) {
-        return new ResponseEntity<>(openaiService.chat(request), HttpStatus.OK);
+        return new ResponseEntity<>(openaiService.chatQuiz(request), HttpStatus.OK);
     }
 }
 

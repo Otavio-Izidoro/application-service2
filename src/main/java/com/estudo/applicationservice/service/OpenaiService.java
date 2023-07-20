@@ -28,7 +28,7 @@ public class OpenaiService {
         this.openaiClient = openaiClient;
     }
 
-    public QuizResponse chat(final OpenaiRequest request) {
+    public QuizResponse chatQuiz(final OpenaiRequest request) {
         request.setModel(this.model);
         final var choices = Arrays.stream(openaiClient.chat(baseUrl, apiKey, request).getChoices()).toList().get(0);
 
