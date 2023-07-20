@@ -28,19 +28,7 @@ public class UserFrequencyController {
             final String accountId,
             final DayOfWeek day) {
 
-        //TODO verificar como é o funcionamento quando nao passamos nenhum day, no caso é pra retornar todos
-        //final var response = userFrequencyService.findById(accountId, day);
-//
-//        if(Objects.isNull(response)) {
-//            LOGGER.info(PresenceLogs.PRESENCA_EXISTS, request);
-//            final CustomResponse errorResponse = new CustomResponse(PresenceLogs.PRESENCA_EXISTS);
-//            return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-//        }
-//
-//        final CustomResponse sucessResponse = new CustomResponse(PresenceLogs.SUCESSFULLY_UPDATED);
-//        LOGGER.info(PresenceLogs.SUCESSFULLY_UPDATED, request);
-//        return new ResponseEntity<>(sucessResponse, HttpStatus.OK);
-
+        //Será estruturado a função que da um GET para pegar a frequência do usuário
         return null;
     }
 

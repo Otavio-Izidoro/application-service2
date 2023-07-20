@@ -35,8 +35,6 @@ public class UserPresenceService {
 
             final UserPresence userPresenceMap = userPresenceRequestToUserPresenceMapper.map(request);
 
-
-            //FICAR ATENTO POIS NAO FAZ MAIS A VERIFICACAO SE A MATERIA ESTÁ REGISTRADA
             final var itsNewClass = userFrequencyService.verifyNewCurrentClass(userPresenceMap);
 
             final UserPresence userPresence = userPresenceDAO.update(userPresenceMap);
