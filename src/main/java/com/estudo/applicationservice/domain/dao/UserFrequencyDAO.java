@@ -26,7 +26,6 @@ public class UserFrequencyDAO extends BaseDAO{
         final var query = buildQueryByAccountIdAndDay(accountId, day);
         return Optional.ofNullable( mongoOperations.findOne(query, UserFrequency.class));
     }
-
     public void updateFrequency(final UserFrequency userFrequency){
         mongoOperations.save(userFrequency);
     }
