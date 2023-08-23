@@ -9,4 +9,6 @@ public class PresenceLogs {
     public static final String NON_EXISTENT_PRESENCE = "Atualize a presença!";
 
     public static final String UPDATED_CONTENT = "Conteúdo Atualizado!";
+
+    public static final String PRESENCE_NOT_FOUND = "Presença não encontrada!";
 }

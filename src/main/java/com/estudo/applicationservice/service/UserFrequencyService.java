@@ -4,6 +4,9 @@ import com.estudo.applicationservice.domain.dao.UserFrequencyDAO;
 import com.estudo.applicationservice.domain.dao.UserPresenceDAO;
 import com.estudo.applicationservice.domain.models.UserFrequency;
 import com.estudo.applicationservice.domain.models.UserPresence;
+import com.estudo.applicationservice.helpers.enums.DayOfWeek;
+import com.estudo.applicationservice.rest.vo.UserFrequencyResponse;
+import com.estudo.applicationservice.service.mappers.UserFrequencyToUserFrequencyResponseMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,13 +14,16 @@ public class UserFrequencyService {
 
     private final UserFrequencyDAO userFrequencyDAO;
     private final UserPresenceDAO userPresenceDAO;
+    private final UserFrequencyToUserFrequencyResponseMapper userFrequencyToUserFrequencyResponseMapper;
 
 
     public UserFrequencyService( final UserFrequencyDAO userFrequencyDAO,
-                                 final UserPresenceDAO userPresenceDAO) {
+                                 final UserPresenceDAO userPresenceDAO,
+                                 final UserFrequencyToUserFrequencyResponseMapper userFrequencyToUserFrequencyResponseMapper) {
 
         this.userFrequencyDAO = userFrequencyDAO;
         this.userPresenceDAO= userPresenceDAO;
+        this.userFrequencyToUserFrequencyResponseMapper = userFrequencyToUserFrequencyResponseMapper;
     }
 
     public boolean verifyNewCurrentClass(final UserPresence userPresence){
@@ -59,6 +65,15 @@ public class UserFrequencyService {
 
     }
 
+    public UserFrequencyResponse getFrequencyByAccountId (final String accountId, final DayOfWeek day){
+
+        if(userFrequencyDAO.findById(accountId, day).isEmpty()){
+            return null;
+        }
+
+        final var userFrequency = userFrequencyDAO.findById(accountId, day).get();
+        return userFrequencyToUserFrequencyResponseMapper.map(userFrequency);
+    }
 
     private void addNewCurrentClass(
             final UserFrequency userFrequency,
