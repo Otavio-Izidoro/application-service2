@@ -11,10 +11,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "com.estudo.applicationservice.configuration")
 public class MongoDBConfig extends AbstractMongoClientConfiguration {
 
-    @Value("${spring.data.mongodb.uri}")
+    @Value("${mongodb.uri}")
     private String mongoUri;
 
-    @Value("${spring.data.mongodb.database}")
+    @Value("${mongodb.database}")
     private String dbName;
 
     @Override
