@@ -58,7 +58,7 @@ public class UserPresenceController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+    @GetMapping(
             path = "/teste")
     public String getTeste(){
         return "teste";
