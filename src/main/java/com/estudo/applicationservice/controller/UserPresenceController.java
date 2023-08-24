@@ -57,4 +57,10 @@ public class UserPresenceController {
         LOGGER.info(PresenceLogs.UPDATED_CONTENT, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            path = "/teste")
+    public String getTeste(){
+        return "teste";
+    }
 }
