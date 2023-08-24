@@ -59,8 +59,19 @@ public class UserPresenceController {
     }
 
     @GetMapping(
+            path = "/testeGET")
+    public String getTesteGet(){
+        return "testeGET";
+    }
+    @PostMapping(
             path = "/teste")
     public String getTeste(){
-        return "teste";
+        return "testePOST sem body";
+    }
+
+    @PostMapping(
+            path = "/teste2")
+    public String getTeste2(@RequestBody final String string){
+        return string;
     }
 }
