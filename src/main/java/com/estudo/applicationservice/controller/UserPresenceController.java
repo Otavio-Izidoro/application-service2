@@ -25,8 +25,7 @@ public class UserPresenceController {
     private UserPresenceService userPresenceService;
 
 
-    @RequestMapping(
-            method = RequestMethod.POST,
+    @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             path = "/update")
     public ResponseEntity<CustomResponse> updatePresence(@RequestBody final UserPresenceRequest request) {
@@ -43,6 +42,8 @@ public class UserPresenceController {
         return new ResponseEntity<>(sucessResponse, HttpStatus.OK);
     }
 
+
+
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -57,18 +58,5 @@ public class UserPresenceController {
 
         LOGGER.info(PresenceLogs.UPDATED_CONTENT, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @GetMapping(
-            path = "/testeGET")
-    public String getTesteGet(){
-        return "testeGET";
-    }
-
-    @RequestMapping(
-            method = RequestMethod.POST,
-            path = "/teste2")
-    public String getTeste2(final String string){
-        return string;
     }
 }

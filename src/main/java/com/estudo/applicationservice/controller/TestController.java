@@ -7,11 +7,14 @@ import com.estudo.applicationservice.rest.vo.UserPresenceRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 
 @RestController
@@ -34,6 +37,16 @@ public class TestController {
             path = "/novoTesteGet"
     )
     public ResponseEntity<String> testGet() {
+
+        return ResponseEntity.ok("Test deu certo");
+    }
+
+    @PostMapping(
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            path = "/update")
+    public ResponseEntity<String> updatePresenceTEst(@RequestBody final UserPresenceRequest request) {
+
+        LOGGER.info(request.toString());
 
         return ResponseEntity.ok("Test deu certo");
     }
