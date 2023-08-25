@@ -26,10 +26,10 @@ public class UserPresenceController {
 
 
     @RequestMapping(
+            method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             path = "/update")
-    public ResponseEntity<CustomResponse> updatePresence(final UserPresenceRequest request) {
-        System.out.println(request);
+    public ResponseEntity<CustomResponse> updatePresence(@RequestBody final UserPresenceRequest request) {
         final var response = userPresenceService.updatePresence(request);
 
         if(Objects.isNull(response)) {
@@ -64,15 +64,11 @@ public class UserPresenceController {
     public String getTesteGet(){
         return "testeGET";
     }
-    @RequestMapping(
-            path = "/teste")
-    public String getTeste(){
-        return "testePOST sem body";
-    }
 
-    @PostMapping(
+    @RequestMapping(
+            method = RequestMethod.POST,
             path = "/teste2")
-    public String getTeste2(@RequestBody final String string){
+    public String getTeste2(final String string){
         return string;
     }
 }
