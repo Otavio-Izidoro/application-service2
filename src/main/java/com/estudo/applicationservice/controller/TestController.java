@@ -6,6 +6,7 @@ import com.estudo.applicationservice.rest.vo.TestRequest;
 import com.estudo.applicationservice.rest.vo.UserPresenceRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ import java.util.Objects;
 @RestController
 public class TestController {
 
-
+    @Value("${openai.api.key}")
+    private String apiKey;
     private static final Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 
     @PostMapping(
@@ -38,7 +40,7 @@ public class TestController {
     )
     public ResponseEntity<String> testGet() {
 
-        return ResponseEntity.ok("Test deu certo");
+        return ResponseEntity.ok(apiKey);
     }
 
     @PostMapping(
