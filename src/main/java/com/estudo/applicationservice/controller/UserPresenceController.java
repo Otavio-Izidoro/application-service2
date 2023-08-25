@@ -25,7 +25,7 @@ public class UserPresenceController {
     private UserPresenceService userPresenceService;
 
 
-    @PostMapping(
+    @RequestMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             path = "/update")
     public ResponseEntity<CustomResponse> updatePresence(@RequestBody final UserPresenceRequest request) {
@@ -63,7 +63,7 @@ public class UserPresenceController {
     public String getTesteGet(){
         return "testeGET";
     }
-    @PostMapping(
+    @RequestMapping(
             path = "/teste")
     public String getTeste(){
         return "testePOST sem body";
