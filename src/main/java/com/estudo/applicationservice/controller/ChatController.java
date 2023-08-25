@@ -3,6 +3,8 @@ package com.estudo.applicationservice.controller;
 import com.estudo.applicationservice.rest.vo.OpenaiRequest;
 import com.estudo.applicationservice.rest.vo.QuizResponse;
 import com.estudo.applicationservice.service.OpenaiService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/openai")
 public class ChatController {
-
     @Autowired
     private final OpenaiService openaiService;
 

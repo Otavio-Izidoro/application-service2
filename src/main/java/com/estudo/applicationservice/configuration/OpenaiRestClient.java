@@ -1,7 +1,10 @@
 package com.estudo.applicationservice.configuration;
 
+import com.estudo.applicationservice.controller.ChatController;
 import com.estudo.applicationservice.rest.vo.OpenaiRequest;
 import com.estudo.applicationservice.rest.vo.OpenaiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class OpenaiRestClient {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
     private final RestTemplate restTemplate = new RestTemplate();
 
     public OpenaiResponse chat(final String baseUrl,
@@ -22,7 +26,7 @@ public class OpenaiRestClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
 
-        System.out.println(headers);
+        LOGGER.info(apiKey, headers);
 
         final HttpEntity<OpenaiRequest> entity = new HttpEntity<>(request, headers);
 

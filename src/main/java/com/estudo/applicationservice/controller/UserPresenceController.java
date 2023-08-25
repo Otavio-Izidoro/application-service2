@@ -28,7 +28,7 @@ public class UserPresenceController {
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             path = "/update")
-    public ResponseEntity<CustomResponse> updatePresence(@RequestBody UserPresenceRequest request) {
+    public ResponseEntity<CustomResponse> updatePresence(@RequestBody final UserPresenceRequest request) {
         final var response = userPresenceService.updatePresence(request);
 
         if(Objects.isNull(response)) {
