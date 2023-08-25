@@ -29,6 +29,7 @@ public class UserPresenceController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             path = "/update")
     public ResponseEntity<CustomResponse> updatePresence(final UserPresenceRequest request) {
+        System.out.println(request);
         final var response = userPresenceService.updatePresence(request);
 
         if(Objects.isNull(response)) {

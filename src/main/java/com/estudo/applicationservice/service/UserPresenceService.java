@@ -37,7 +37,10 @@ public class UserPresenceService {
 
             final var itsNewClass = userFrequencyService.verifyNewCurrentClass(userPresenceMap);
 
+        System.out.println(itsNewClass+" its new class");
             final UserPresence userPresence = userPresenceDAO.update(userPresenceMap);
+
+        System.out.println(userPresence);
 
             if(Objects.isNull(userPresence) ||  !userFrequencyService.updateFrequency(userPresence, itsNewClass)){
                 return  null;

@@ -46,7 +46,6 @@ public class UserFrequencyService {
 
         if(oldFrequency.isEmpty()){
             System.out.println("Materia nao registrada!");
-            System.out.println(userPresence);
             return false;
         }
         final var frequencyToSave = oldFrequency.get();
