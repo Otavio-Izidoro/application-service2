@@ -44,7 +44,7 @@ public class TestController {
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             path = "/update")
-    public ResponseEntity<String> updatePresenceTEst(@RequestBody final UserPresenceRequest request) {
+    public ResponseEntity<String> updatePresenceTEst(@RequestBody UserPresenceRequest request) {
 
         LOGGER.info(request.toString());
 

@@ -10,6 +10,9 @@ public class TestRequest {
     @NotBlank
     private String accountId;
 
+    @JsonProperty
+    @NotBlank
+    private boolean presence;
 
     public String getAccountId() {
         return accountId;
@@ -19,4 +22,11 @@ public class TestRequest {
         this.accountId = accountId;
     }
 
+    public boolean isPresence() {
+        return presence;
+    }
+
+    public void setPresence(boolean presence) {
+        this.presence = presence;
+    }
 }
