@@ -49,12 +49,12 @@ public class UserPresenceService {
 
     public UserPresenceResponse updateContent(final ClassContentRequest request) {
 
-        final UserPresence classContent = userPresenceDAO.updateClassContent(request);
+        final UserPresence topic = userPresenceDAO.updateClassContent(request);
 
-        if(Objects.isNull(classContent)) {
+        if(Objects.isNull(topic)) {
             return null;
         }
-        return userPresenceToUserPresenceResponseMapper.map(classContent);
+        return userPresenceToUserPresenceResponseMapper.map(topic);
     }
 
 }

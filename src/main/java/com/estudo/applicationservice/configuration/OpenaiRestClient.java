@@ -26,8 +26,6 @@ public class OpenaiRestClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
 
-        LOGGER.info(apiKey, headers);
-
         final HttpEntity<OpenaiRequest> entity = new HttpEntity<>(request, headers);
 
         final ResponseEntity<OpenaiResponse> responseEntity = restTemplate.exchange(
