@@ -1,21 +1,25 @@
 package com.estudo.applicationservice.service;
 
+import com.estudo.applicationservice.controller.UserPresenceController;
 import com.estudo.applicationservice.domain.dao.UserFrequencyDAO;
 import com.estudo.applicationservice.domain.dao.UserPresenceDAO;
 import com.estudo.applicationservice.domain.models.UserFrequency;
 import com.estudo.applicationservice.domain.models.UserPresence;
 import com.estudo.applicationservice.helpers.enums.DayOfWeek;
+import com.estudo.applicationservice.helpers.validator.Validate;
 import com.estudo.applicationservice.rest.vo.UserFrequencyResponse;
 import com.estudo.applicationservice.service.mappers.UserFrequencyToUserFrequencyResponseMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserFrequencyService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserFrequencyService.class);
     private final UserFrequencyDAO userFrequencyDAO;
     private final UserPresenceDAO userPresenceDAO;
     private final UserFrequencyToUserFrequencyResponseMapper userFrequencyToUserFrequencyResponseMapper;
-
 
     public UserFrequencyService( final UserFrequencyDAO userFrequencyDAO,
                                  final UserPresenceDAO userPresenceDAO,
@@ -26,29 +30,25 @@ public class UserFrequencyService {
         this.userFrequencyToUserFrequencyResponseMapper = userFrequencyToUserFrequencyResponseMapper;
     }
 
-    public boolean verifyNewCurrentClass(final UserPresence userPresence){
-        final var userExists = userPresenceDAO.findById(userPresence.getAccountId(),userPresence.getDate());
+    public Validate verifyNewCurrentClass(final UserPresence userPresence){
+        final var userPresenceExist = userPresenceDAO.findById(userPresence.getAccountId(),userPresence.getDate());
+        final var userFrequency = userFrequencyDAO.findById(userPresence.getAccountId(),userPresence.getDay());
+        final var validate = new Validate(userPresenceExist.isPresent(),userFrequency.isPresent(),false);
 
-        if(userExists.isEmpty()){
-            final var userFrequency = userFrequencyDAO.findById(userPresence.getAccountId(),userPresence.getDay());
-            if(userFrequency.isPresent()){
-                addNewCurrentClass(userFrequency.get(), userPresence.isPresence());
-                return true;
-            }
+
+
+        if(!validate.userPresenceExist() && validate.userFrequencyExist()){
+            validate.setItsNewClass(true);
+            addNewCurrentClass(userFrequency.get(), userPresence.isPresence());
         }
-        return false;
+
+        return validate;
     }
 
     public boolean updateFrequency (final UserPresence userPresence,
                                     final boolean itsNewClass) {
 
-        final var oldFrequency = userFrequencyDAO.findById(userPresence.getAccountId(), userPresence.getDay());
-
-        if(oldFrequency.isEmpty()){
-            System.out.println("Materia nao registrada!");
-            return false;
-        }
-        final var frequencyToSave = oldFrequency.get();
+        final var frequencyToSave = userFrequencyDAO.findById(userPresence.getAccountId(), userPresence.getDay()).get();
 
         if(itsNewClass){
             return updateNewFrequency(frequencyToSave);
@@ -67,12 +67,9 @@ public class UserFrequencyService {
 
     public UserFrequencyResponse getFrequencyByAccountId (final String accountId, final DayOfWeek day){
 
-        if(userFrequencyDAO.findById(accountId, day).isEmpty()){
-            return null;
-        }
+        final var userFrequency = userFrequencyDAO.findById(accountId, day);
 
-        final var userFrequency = userFrequencyDAO.findById(accountId, day).get();
-        return userFrequencyToUserFrequencyResponseMapper.map(userFrequency);
+        return userFrequency.map(userFrequencyToUserFrequencyResponseMapper::map).orElse(null);
     }
 
     private void addNewCurrentClass(

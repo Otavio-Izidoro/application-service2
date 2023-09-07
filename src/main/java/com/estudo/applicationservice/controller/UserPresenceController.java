@@ -1,6 +1,6 @@
 package com.estudo.applicationservice.controller;
 import com.estudo.applicationservice.constants.PresenceLogs;
-import com.estudo.applicationservice.helpers.CustomResponse;
+import com.estudo.applicationservice.rest.vo.CustomResponse;
 import com.estudo.applicationservice.rest.vo.ClassContentRequest;
 import com.estudo.applicationservice.rest.vo.UserPresenceRequest;
 import com.estudo.applicationservice.rest.vo.UserPresenceResponse;
@@ -42,6 +42,8 @@ public class UserPresenceController {
         return new ResponseEntity<>(sucessResponse, HttpStatus.OK);
     }
 
+
+
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -56,11 +58,5 @@ public class UserPresenceController {
 
         LOGGER.info(PresenceLogs.UPDATED_CONTENT, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @GetMapping(
-            path = "/teste")
-    public String getTeste(){
-        return "teste";
     }
 }

@@ -16,7 +16,7 @@ public class ClassContentRequest {
 
     @JsonProperty
     @NotBlank
-    private String content;
+    private String topic;
 
     public String getAccountId() {
         return accountId;
@@ -34,11 +34,11 @@ public class ClassContentRequest {
         this.date = date;
     }
 
-    public String getContent() {
-        return content;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }

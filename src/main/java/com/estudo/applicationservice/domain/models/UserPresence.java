@@ -12,7 +12,7 @@ public class UserPresence {
     private String accountId;
     private boolean presence;
     private String date;
-    private String classContent;
+    private String topic;
     private DayOfWeek day;
 
     public String getId() {
@@ -46,12 +46,12 @@ public class UserPresence {
         this.accountId = accountId;
     }
 
-    public String getClassContent() {
-        return classContent;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setClassContent(String classContent) {
-        this.classContent = classContent;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public DayOfWeek getDay() {
