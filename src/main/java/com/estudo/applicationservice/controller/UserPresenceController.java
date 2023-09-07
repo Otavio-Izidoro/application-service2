@@ -1,6 +1,6 @@
 package com.estudo.applicationservice.controller;
 import com.estudo.applicationservice.constants.PresenceLogs;
-import com.estudo.applicationservice.helpers.CustomResponse;
+import com.estudo.applicationservice.rest.vo.CustomResponse;
 import com.estudo.applicationservice.rest.vo.ClassContentRequest;
 import com.estudo.applicationservice.rest.vo.UserPresenceRequest;
 import com.estudo.applicationservice.rest.vo.UserPresenceResponse;

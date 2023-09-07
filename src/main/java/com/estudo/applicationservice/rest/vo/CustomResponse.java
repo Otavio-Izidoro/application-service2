@@ -1,4 +1,4 @@
-package com.estudo.applicationservice.helpers;
+package com.estudo.applicationservice.rest.vo;
 
 public class CustomResponse {
     private String message;

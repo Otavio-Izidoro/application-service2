@@ -8,13 +8,17 @@ import com.estudo.applicationservice.rest.vo.UserPresenceResponse;
 import com.estudo.applicationservice.service.mappers.UserPresenceToUserPresenceResponseMapper;
 import com.estudo.applicationservice.service.mappers.UserPresenceRequestToUserPresenceMapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 @Service
 public class UserPresenceService {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserPresenceService.class);
     private final UserPresenceDAO userPresenceDAO;
     private final UserFrequencyService userFrequencyService;
     private final UserPresenceRequestToUserPresenceMapper userPresenceRequestToUserPresenceMapper;
@@ -35,11 +39,20 @@ public class UserPresenceService {
 
             final UserPresence userPresenceMap = userPresenceRequestToUserPresenceMapper.map(request);
 
-            final var itsNewClass = userFrequencyService.verifyNewCurrentClass(userPresenceMap);
+            if(!validFormatDate(userPresenceMap)){
+                return null;
+            }
+
+            final var validate = userFrequencyService.verifyNewCurrentClass(userPresenceMap);
+
+            if(!validate.userFrequencyExist()){
+                LOGGER.info("Materia nao registrada!");
+                return null;
+            }
 
             final UserPresence userPresence = userPresenceDAO.update(userPresenceMap);
 
-            if(Objects.isNull(userPresence) ||  !userFrequencyService.updateFrequency(userPresence, itsNewClass)){
+            if(Objects.isNull(userPresence) ||  !userFrequencyService.updateFrequency(userPresence, validate.itsNewClass())){
                 return  null;
             }
 
@@ -57,4 +70,17 @@ public class UserPresenceService {
         return userPresenceToUserPresenceResponseMapper.map(topic);
     }
 
+
+    private boolean validFormatDate(final UserPresence userPresence){
+
+        try{
+            final LocalDate date = LocalDate.parse(userPresence.getDate());
+            userPresence.setDate(date.toString());
+        }catch (DateTimeParseException e){
+            LOGGER.info("Erro na formatacao da data", e);
+            return false;
+        }
+
+        return true;
+    }
 }

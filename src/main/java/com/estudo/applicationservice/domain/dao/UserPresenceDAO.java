@@ -38,7 +38,6 @@ public class UserPresenceDAO extends BaseDAO{
 
         userPresence.get().setTopic(request.getTopic());
 
-
         return mongoOperations.save(userPresence.get());
     }
 
