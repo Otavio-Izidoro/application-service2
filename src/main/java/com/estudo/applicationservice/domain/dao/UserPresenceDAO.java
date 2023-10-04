@@ -1,6 +1,7 @@
 package com.estudo.applicationservice.domain.dao;
 
 import com.estudo.applicationservice.domain.models.UserPresence;
+import com.estudo.applicationservice.helpers.enums.DayOfWeek;
 import com.estudo.applicationservice.rest.vo.ClassContentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -8,6 +9,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.awt.print.Pageable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -44,6 +47,13 @@ public class UserPresenceDAO extends BaseDAO{
     public Optional<UserPresence> findById(final String accountId, final String date){
         final var query = buildQueryByAccountIdAndDate(accountId,date);
         return findByQuery(query);
+    }
+
+    public List<UserPresence> findTopics (final String accountId, final DayOfWeek day){
+        final Query query = new Query();
+        query.addCriteria(Criteria.where("accountId").is(accountId).and("day").is(day));
+        return Optional.of( mongoOperations.find(query,UserPresence.class)).orElse(null);
+
     }
 
     private Optional<UserPresence> findByQuery(final Query query){
