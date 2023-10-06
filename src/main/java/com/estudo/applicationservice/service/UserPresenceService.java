@@ -2,9 +2,8 @@ package com.estudo.applicationservice.service;
 
 import com.estudo.applicationservice.domain.dao.UserPresenceDAO;
 import com.estudo.applicationservice.domain.models.UserPresence;
-import com.estudo.applicationservice.rest.vo.ClassContentRequest;
-import com.estudo.applicationservice.rest.vo.UserPresenceRequest;
-import com.estudo.applicationservice.rest.vo.UserPresenceResponse;
+import com.estudo.applicationservice.helpers.enums.DayOfWeek;
+import com.estudo.applicationservice.rest.vo.*;
 import com.estudo.applicationservice.service.mappers.UserPresenceToUserPresenceResponseMapper;
 import com.estudo.applicationservice.service.mappers.UserPresenceRequestToUserPresenceMapper;
 
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -70,7 +70,21 @@ public class UserPresenceService {
         return userPresenceToUserPresenceResponseMapper.map(topic);
     }
 
+    public UserTopicResponse getTopic (final String accountId, final DayOfWeek day){
 
+        final var userPresences = userPresenceDAO.findTopics(accountId, day);
+
+        if(Objects.isNull(userPresences)){
+            return null;
+        }
+
+        final List<String> topics = userPresences.stream()
+                .map(UserPresence::getTopic)
+                .filter(Objects::nonNull)
+                .toList();
+
+        return new UserTopicResponse(topics);
+    }
     private boolean validFormatDate(final UserPresence userPresence){
 
         try{
