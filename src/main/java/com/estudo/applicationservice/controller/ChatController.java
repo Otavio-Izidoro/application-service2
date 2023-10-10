@@ -1,10 +1,8 @@
 package com.estudo.applicationservice.controller;
 
-import com.estudo.applicationservice.rest.vo.OpenaiRequest;
+import com.estudo.applicationservice.rest.vo.QuizRequest;
 import com.estudo.applicationservice.rest.vo.QuizResponse;
 import com.estudo.applicationservice.service.OpenaiService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +25,7 @@ public class ChatController {
     @PostMapping(path = "/quiz",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<QuizResponse> chat(@RequestBody final OpenaiRequest request) {
+    public ResponseEntity<QuizResponse> chat(@RequestBody final QuizRequest request) {
         return new ResponseEntity<>(openaiService.chatQuiz(request), HttpStatus.OK);
     }
 }

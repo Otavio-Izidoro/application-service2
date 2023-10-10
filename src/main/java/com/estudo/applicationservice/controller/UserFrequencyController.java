@@ -33,10 +33,11 @@ public class UserFrequencyController{
         final var response = userFrequencyService.getFrequencyByAccountId(accountId,day);
 
         if(Objects.isNull(response)) {
-            LOGGER.info(PresenceLogs.PRESENCE_NOT_FOUND);
+            LOGGER.info(PresenceLogs.PRESENCE_NOT_FOUND, accountId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        LOGGER.info("[GET] Sucess to get frequency from accountId {} ", accountId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
