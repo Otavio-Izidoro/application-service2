@@ -7,11 +7,16 @@ import com.estudo.applicationservice.domain.models.UserFrequency;
 import com.estudo.applicationservice.domain.models.UserPresence;
 import com.estudo.applicationservice.helpers.enums.DayOfWeek;
 import com.estudo.applicationservice.helpers.validator.Validate;
+import com.estudo.applicationservice.rest.vo.UserFrequencyRequest;
 import com.estudo.applicationservice.rest.vo.UserFrequencyResponse;
+import com.estudo.applicationservice.service.mappers.UserFrequencyRequestToUserFrequencyMapper;
 import com.estudo.applicationservice.service.mappers.UserFrequencyToUserFrequencyResponseMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.Objects;
 
 @Service
 public class UserFrequencyService {
@@ -21,47 +26,40 @@ public class UserFrequencyService {
     private final UserPresenceDAO userPresenceDAO;
     private final UserFrequencyToUserFrequencyResponseMapper userFrequencyToUserFrequencyResponseMapper;
 
+    private final UserFrequencyRequestToUserFrequencyMapper userFrequencyRequestToUserFrequencyMapper;
     public UserFrequencyService( final UserFrequencyDAO userFrequencyDAO,
                                  final UserPresenceDAO userPresenceDAO,
-                                 final UserFrequencyToUserFrequencyResponseMapper userFrequencyToUserFrequencyResponseMapper) {
+                                 final UserFrequencyToUserFrequencyResponseMapper userFrequencyToUserFrequencyResponseMapper,
+                                 final UserFrequencyRequestToUserFrequencyMapper userFrequencyRequestToUserFrequencyMapper) {
 
         this.userFrequencyDAO = userFrequencyDAO;
         this.userPresenceDAO= userPresenceDAO;
         this.userFrequencyToUserFrequencyResponseMapper = userFrequencyToUserFrequencyResponseMapper;
+        this.userFrequencyRequestToUserFrequencyMapper = userFrequencyRequestToUserFrequencyMapper;
     }
 
-    public Validate verifyNewCurrentClass(final UserPresence userPresence){
-        final var userPresenceExist = userPresenceDAO.findById(userPresence.getAccountId(),userPresence.getDate());
-        final var userFrequency = userFrequencyDAO.findById(userPresence.getAccountId(),userPresence.getDay());
-        final var validate = new Validate(userPresenceExist.isPresent(),userFrequency.isPresent(),false);
+    public Validate verifyNewCurrentClass(final UserFrequency userFrequency, final Validate validate,
+                                          final boolean isPresence){
 
 
 
         if(!validate.userPresenceExist() && validate.userFrequencyExist()){
             validate.setItsNewClass(true);
-            addNewCurrentClass(userFrequency.get(), userPresence.isPresence());
+            addNewCurrentClass(userFrequency, isPresence);
+            updateNewFrequency(userFrequency);
         }
 
         return validate;
     }
 
-    public boolean updateFrequency (final UserPresence userPresence,
-                                    final boolean itsNewClass) {
+    public boolean updateFrequency (final boolean isPresence, UserFrequency userFrequency) {
 
-        final var frequencyToSave = userFrequencyDAO.findById(userPresence.getAccountId(), userPresence.getDay()).get();
-
-        if(itsNewClass){
-            return updateNewFrequency(frequencyToSave);
-        }
-
-
-        final UserFrequency invertedFrequency;
-        if(userPresence.isPresence()){
-            invertedFrequency = invertPresenceAndAbsence(frequencyToSave, 1, -1);
+        if(isPresence){
+            invertPresenceAndAbsence(userFrequency, 1, -1);
         }else{
-            invertedFrequency = invertPresenceAndAbsence(frequencyToSave, -1, 1);
+            invertPresenceAndAbsence(userFrequency, -1, 1);
         }
-        return updateNewFrequency(invertedFrequency);
+        return updateNewFrequency(userFrequency);
 
     }
 
@@ -72,12 +70,28 @@ public class UserFrequencyService {
         return userFrequency.map(userFrequencyToUserFrequencyResponseMapper::map).orElse(null);
     }
 
+    public UserFrequencyResponse updateUserInformation (final UserFrequencyRequest request){
+        if(!StringUtils.hasText(request.getAccountId())){
+            return null;
+        }
+        final UserFrequency userFrequencyMap = userFrequencyRequestToUserFrequencyMapper.map(request);
+        userFrequencyMap.setFrequency(0.00);
+        userFrequencyMap.setNumberCurrentClasses(0);
+        userFrequencyMap.setPresences(0);
+        userFrequencyMap.setAbsences(0);
+       final UserFrequency userFrequency = userFrequencyDAO.update(userFrequencyMap);
+       if(Objects.isNull(userFrequency)){
+           return null;
+       }
+        return userFrequencyToUserFrequencyResponseMapper.map(userFrequency);
+    }
+
     private void addNewCurrentClass(
             final UserFrequency userFrequency,
             final boolean isPresence){
 
         final var updatedFrequency = updateNewPresenceOrAbsence(isPresence,userFrequency);
-        userFrequencyDAO.updateFrequency(updatedFrequency);
+        userFrequencyDAO.updateNewFrequency(updatedFrequency);
     }
 
     private boolean updateNewFrequency(final UserFrequency userFrequency){
@@ -85,6 +99,7 @@ public class UserFrequencyService {
         userFrequency.setFrequency(newFrequency);
         return userFrequencyDAO.updateNewFrequency(userFrequency);
     }
+
     private UserFrequency updateNewPresenceOrAbsence(
             final boolean isPresence,
             final UserFrequency userFrequency){

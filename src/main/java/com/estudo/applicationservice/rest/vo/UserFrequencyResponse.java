@@ -10,6 +10,14 @@ public class UserFrequencyResponse {
     @JsonProperty
     private String subjectName;
     @JsonProperty
+    private String teacherName;
+    @JsonProperty
+    private String email;
+    @JsonProperty
+    private String grades;
+    @JsonProperty
+    private String notes;
+    @JsonProperty
     private Double frequency;
     @JsonProperty
     private DayOfWeek day;
@@ -35,6 +43,28 @@ public class UserFrequencyResponse {
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
     }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) { this.email = email; }
+
+    public String getGrades() { return grades; }
+
+    public void setGrades(String grades) { this.grades = grades; }
+
+    public String getNotes() { return notes; }
+
+    public void setNotes(String notes) { this.notes = notes; }
 
     public Double getFrequency() {
         return frequency;
