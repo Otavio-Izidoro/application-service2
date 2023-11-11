@@ -11,10 +11,13 @@ public class UserFrequency {
     private String id;
     private String accountId;
     private String subjectName;
+    private String teacherName;
+    private String email;
+    private String grades;
+    private String notes;
     private DayOfWeek day;
     private Double frequency;
     private Integer numberCurrentClasses;
-
     private Integer presences;
     private Integer absences;
 
@@ -40,6 +43,38 @@ public class UserFrequency {
 
     public void setSubjectName(final String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(final String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getGrades() {
+        return grades;
+    }
+
+    public void setGrades(String grades) {
+        this.grades = grades;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public DayOfWeek getDay() {

@@ -4,8 +4,9 @@ public class PresenceLogs {
 
     public static final String UPDATE_ERROR_PRESENCE = "Erro ao atualizar presenca para o dia {}";
 
+    public static final String UPDATE_ERROR_USER_INFORMATION = "Erro ao atualizar os dados da matéria da {}";
     public static final String SUCESSFULLY_UPDATED = "Presenca Atualizada para o dia {}";
-
+    public static final String SUCESSFULLY_UPDATED_USER_INFORMATION = "Dados atualizados para a matéria da {}";
     public static final String NON_EXISTENT_PRESENCE = "Atualize a presenca para o dia {}";
 
     public static final String UPDATED_CONTENT = "Conteúdo Atualizado para o dia {}";
