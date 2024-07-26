@@ -32,4 +32,4 @@ Para executar o projeto localmente, siga os passos abaixo:
 1. Clone o repositório do projeto do GitHub:
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
+git clone https://github.com/Otavio-Izidoro/application-service2.git
